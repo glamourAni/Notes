@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	align-items: center;
+	/* border: 1px solid black; */
+	background-color: #be8cad;
+
+	/* align-items: center; */
+}
+.main {
+	font-family: "Lora", serif;
+	width: 75%;
+
+	/* border: 1px solid blue; */
+}
+.main h1 {
+	font-family: "Ubuntu-Condensed", sans-serif;
+	font-size: 2.5rem;
+	font-weight: 500;
+	color: #1b1c20;
+	margin: 0.2em 0 1em 0;
+}
+/* .main h1 .logo {
+	color: #9b24c2;
+	/* padding: 0 0.2em;} */
+.hide {
+	display: none !important;
+}
+form textarea {
+	border: 1px solid #050104;
+	outline: none;
+	background-color: #be8cad;
+	height: 24em;
+	padding: 0.6em;
+	margin: 0;
+	width: 90%;
+	resize: none;
+	font-size: 1.2rem;
+	line-height: 1.1em;
+}
+.edit {
+	height: 2em;
+	width: 2em;
+}
+.delete {
+	height: 1.5em;
+	width: 2em;
+}
+
+.save {
+	font-size: 1.2rem;
+	padding: 0.2em 0.7rem;
+	margin-top: 1em;
+	cursor: pointer;
+	background-color: #ebd8d0;
+	border: none;
+	border-radius: 0.3em;
+	outline: none;
+}
+.save:hover {
+	background-color: #737f2d;
+}
+.menu {
+	display: flex;
+	justify-content: space-between;
+	background-color: #e5d9f2;
+	margin-bottom: 1.2em;
+}
+.menu > * {
+	font-size: 1.2rem;
+	margin: 0.5em 0;
+}
+.menu .notes-count {
+	font-weight: 500;
+	font-size: 1.4rem;
+}
+.create {
+	background-color: #aa9ced;
+	border: none;
+	margin: auto 0.2rem auto 0;
+	height: 1.4em;
+	padding: 0 0.5em;
+	outline: none;
+	border-radius: 0.2rem;
+	cursor: pointer;
+	/* color: #fff; */
+	/* border: 1px solid ; */
+}
+.create:hover {
+	background-color: #533cc2;
+}
+.notes-list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1em;
+}
+.note {
+	background-color: rgb(128, 25, 90);
+	color: #fff;
+	padding: 1em;
+	border-radius: 0.3em;
+}
+.footer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+}
