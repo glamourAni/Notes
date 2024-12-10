@@ -7,8 +7,11 @@ const menu = document.querySelector(".menu")
 const notesArray = document.querySelector(".notes-list")
 const counter = document.getElementById("counter")
 
+const noteList = JSON.parse(localStorage.getItem("Notes") || "[]")
+
 const EDIT_SVG = `
 					<svg
+								
 								class="edit"
 								fill="#000000"
 								width="800px"
@@ -22,8 +25,9 @@ const EDIT_SVG = `
 								/>
 					</svg>
 				`
-const DELETE_SVG = `
+const DELETE_SVG = (noteid) => `
 						<svg
+								onclick="(event) => deleteNote(event, ${noteid})"
 								class="delete"
 								fill="#000000"
 								width="800px"
@@ -36,20 +40,20 @@ const DELETE_SVG = `
 								/>
 							</svg>
 					`
-const months = {
-	Jan: "January",
-	Feb: "February",
-	Mar: "March",
-	Apr: "April",
-	May: "May",
-	Jun: "June",
-	Jul: "July",
-	Aug: "August",
-	Sep: "September",
-	Oct: "October",
-	Nov: "November",
-	Dec: "December",
-}
+const months = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+]
 // load svg icon
 function loadSVG(svg, container) {
 	container.insertAdjacentHTML("beforeend", svg)
@@ -72,46 +76,74 @@ makeNote.addEventListener("click", () => {
 	notesArray.classList.add("hide")
 	noteEditArea.classList.remove("hide")
 })
+
+function showNotes() {
+	document.querySelectorAll(".note").forEach((note) => note.remove())
+	for (const Note of noteList) {
+		const note = document.createElement("div")
+		note.classList.add("note")
+
+		note.setAttribute("id", Note.id)
+		notesArray.classList.remove("hide")
+		menu.classList.remove("hide")
+		notesArray.append(note)
+
+		let createdAt = document.createElement("p")
+		let text = document.createElement("p")
+		const options = document.createElement("div")
+		options.classList.add("footer")
+		note.append(createdAt, text, options)
+
+		createdAt.innerText = Note.date //sets the date string
+		if (Note.description === "") {
+			text.innerText = "(Empty Note)"
+		} else {
+			text.innerText = Note.description
+		}
+		// add icons
+		loadSVG(EDIT_SVG, options)
+		loadSVG(DELETE_SVG(Note.id), options)
+
+		noteEditArea.classList.add("hide")
+		counter.innerText = noteList.length
+		textBox.value = ""
+	}
+}
 saveNote.addEventListener("click", () => {
-	// create nodes
-	const note = document.createElement("div")
-	note.classList.add("note")
-
+	let description = textBox.value
 	const id = generateUUID()
-	note.setAttribute("id", id)
 
-	notesArray.classList.remove("hide")
-	menu.classList.remove("hide")
-	notesArray.append(note)
+	const dateString = new Date(),
+		month = months[dateString.getMonth()],
+		day = dateString.getDate(),
+		year = dateString.getFullYear()
 
-	let createdAt = document.createElement("p")
-	let text = document.createElement("p")
-	const options = document.createElement("div")
-	options.classList.add("footer")
-	note.append(createdAt, text, options)
-
-	// add note date, content and option properties
-	const dateString = new Date().toDateString().split(" ")
-	console.log(dateString)
-	let date = dateString.replace(dateString[0], "").trim()
-	console.log(date)
-
-	createdAt.innerText = date
-	if (textBox.value === "") {
-		text.innerText = "(Empty note)"
-	} else {
-		text.innerText = textBox.value
+	const noteDetails = {
+		id: id,
+		date: `${month} ${day}, ${year}`,
+		description: description,
 	}
 
-	loadSVG(EDIT_SVG, options)
-	loadSVG(DELETE_SVG, options)
-	// save note to localstorage
+	//create an array to store notes
 
-	noteEditArea.classList.add("hide")
-	counter.innerText = Number(counter.innerText) + 1
-	textBox.value = ""
+	noteList.push(noteDetails)
+	// save notes to localstorage
+	localStorage.setItem("Notes", JSON.stringify(noteList))
+	showNotes()
 })
+showNotes()
 // save to and retrieve notes from localStorage
 // correct day spelling in date
 // specify length of text to be previewed
 // make icons functional
+function deleteNote(e, id) {
+	console.log(id)
+	noteList.forEach((note) => {
+		if (note.id === id) {
+			console.log(note)
+			noteList.splice(indexOf(note), 1)
+		}
+	})
+	localStorage.setItem("Notes", JSON.stringify(noteList))
+	showNotes()
+}
